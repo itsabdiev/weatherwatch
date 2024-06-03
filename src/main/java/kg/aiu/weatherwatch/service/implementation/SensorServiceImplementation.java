@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class SensorServiceImplementation implements SensorService {
 
     SensorRepository sensorRepository;
-    CacheStore<List<Sensor>> cacheStore;
+    CacheStore<Sensor> cacheStore;
 
     @Override
     public boolean existsByModel(String model) {
@@ -54,11 +54,30 @@ public class SensorServiceImplementation implements SensorService {
 
     @Override
     public Sensor searchByUUID(String uuid) {
-        return sensorRepository.findByUUID(uuid);
+        String generatedKey = generateKey(uuid, false);
+        Sensor sensor = cacheStore.get(generatedKey);
+        if (sensor != null) {
+            return sensor;
+        }
+        Sensor byUUID = sensorRepository.findByUUID(uuid);
+        cacheStore.add(generatedKey,byUUID);
+        return byUUID;
     }
 
     @Override
     public Sensor searchByModel(String model) {
-        return sensorRepository.findByModel(model);
+        String generatedKey = generateKey(model, true);
+        Sensor sensor = cacheStore.get(generatedKey);
+        if (sensor != null) {
+            return sensor;
+        }
+        Sensor byModel = sensorRepository.findByModel(model);
+        cacheStore.add(generatedKey,byModel);
+        return byModel;
+    }
+
+    private String generateKey(String key,boolean isModel) {
+        if (isModel) return "MODEL" + key;
+        return "UUID" + key;
     }
 }
