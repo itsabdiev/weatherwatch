@@ -44,7 +44,7 @@ public class JsonWebTokenService {
                 .setClaims(extraClaims)
                 .setSubject(email)
                 .setIssuedAt(Date.from(issuedAt))
-                .setExpiration(Date.from(issuedAt.plus(minutes, ChronoUnit.DAYS)))
+                .setExpiration(Date.from(issuedAt.plus(minutes, ChronoUnit.MINUTES)))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
