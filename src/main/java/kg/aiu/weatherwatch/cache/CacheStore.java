@@ -19,12 +19,13 @@ public class CacheStore<T> {
     }
 
     public T get(String key) {
+        log.info("CacheStore : Data has been retrieved from cache");
         return cache.getIfPresent(key);
     }
 
     public void add(String key, T value) {
         if(key != null && value != null) {
-            log.info("CacheStore : Data with key {}  and value {} has been saved",key,value);
+            log.info("CacheStore : Data has been saved to cache");
             cache.put(key, value);
         }
     }
