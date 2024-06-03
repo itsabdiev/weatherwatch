@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 ;import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +60,7 @@ public class SensorServiceImplementation implements SensorService {
         if (sensor != null) {
             return sensor;
         }
-        Sensor byUUID = sensorRepository.findByUUID(uuid);
+        Sensor byUUID = sensorRepository.findByUUID(UUID.fromString(uuid));
         cacheStore.add(generatedKey,byUUID);
         return byUUID;
     }

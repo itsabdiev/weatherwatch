@@ -29,8 +29,9 @@ public class SensorController {
 
 
     @GetMapping("/search")
-    public SensorResponse search(@RequestParam(required = false) String uuid,
-                                       @RequestParam(required = false) String model) {
+    public SensorResponse search(
+             @RequestParam(required = false) String uuid,
+             @RequestParam(required = false) String model) {
         return sensorEndpoint.search(uuid,model);
     }
 

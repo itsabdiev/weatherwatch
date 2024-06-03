@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 public interface SensorRepository extends JpaRepository<Sensor,Long> {
 
@@ -36,7 +37,7 @@ public interface SensorRepository extends JpaRepository<Sensor,Long> {
 
 
     @Query(value = "SELECT * FROM sensors WHERE sensor_number = ? AND deleted IS NULL",nativeQuery = true)
-    Sensor findByUUID(String uuid);
+    Sensor findByUUID(UUID uuid);
 
     @Query(value = "SELECT * FROM sensors WHERE model = ? AND deleted IS NULL",nativeQuery = true)
     Sensor findByModel(String model);
